@@ -1,0 +1,253 @@
+@import url('https://api.fontshare.com/v2/css?f[]=inter@400,500,600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 214 32% 95%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+
+    --sidebar-bg: 0 0% 96%;
+    --editor-bg: 0 0% 98%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --doc-sidebar-bg: 0 0% 99%;
+    --doc-sidebar-border: 214 32% 91%;
+    --doc-nav-hover: 210 40% 96%;
+    --doc-nav-active: 221 83% 53%;
+
+    --code-bg: 220 13% 18%;
+    --inline-code-bg: 214 32% 95%;
+    --inline-code-text: 338 88% 38%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 221 83% 53%;
+
+    --sidebar-bg: 0 0% 14%;
+    --editor-bg: 0 0% 16%;
+    --sidebar-background: 0 0% 14%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 16 100% 61%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 20%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 25%;
+    --sidebar-ring: 16 100% 61%;
+
+    --doc-sidebar-bg: 222 47% 11%;
+    --doc-sidebar-border: 217 33% 17%;
+    --doc-nav-hover: 217 33% 17%;
+    --doc-nav-active: 221 83% 53%;
+
+    --code-bg: 220 13% 18%;
+    --inline-code-bg: 217 33% 17%;
+    --inline-code-text: 338 88% 68%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Documentation-specific styles */
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold tracking-tight mt-8 mb-4 scroll-mt-20;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-semibold tracking-tight mt-10 mb-4 scroll-mt-20 border-b pb-2;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold tracking-tight mt-8 mb-3 scroll-mt-20;
+  }
+
+  .prose h4 {
+    @apply text-xl font-semibold tracking-tight mt-6 mb-2 scroll-mt-20;
+  }
+
+  .prose p {
+    @apply leading-7 mb-4;
+  }
+
+  .prose ul, .prose ol {
+    @apply my-4 ml-6 space-y-2;
+  }
+
+  .prose li {
+    @apply leading-7;
+  }
+
+  .prose code {
+    @apply bg-inline-code-bg text-inline-code-text px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-code-bg text-white p-4 rounded-lg overflow-x-auto my-6;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-white p-0;
+  }
+
+  .prose a {
+    @apply text-primary hover:underline font-medium;
+  }
+
+  .prose table {
+    @apply w-full my-6 border-collapse;
+  }
+
+  .prose th {
+    @apply border border-border bg-muted px-4 py-2 text-left font-semibold;
+  }
+
+  .prose td {
+    @apply border border-border px-4 py-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary pl-4 italic my-6 text-muted-foreground;
+  }
+
+  .prose strong {
+    @apply font-semibold text-foreground;
+  }
+}
+
+/* Squircle border radius (Apple-style smooth corners) */
+.squircle {
+  border-radius: 12px;
+  clip-path: url(#squircle);
+}
+
+@supports (border-radius: 12px) {
+  .squircle {
+    border-radius: 12px;
+    /* Simulate squircle with multiple border-radius values */
+    border-top-left-radius: 12px 14px;
+    border-top-right-radius: 12px 14px;
+    border-bottom-left-radius: 12px 14px;
+    border-bottom-right-radius: 12px 14px;
+  }
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Diff styles */
+.diff-add {
+  background-color: #d1fae5;
+}
+
+.diff-add-inline {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.diff-remove {
+  background-color: #fee2e2;
+}
+
+.diff-remove-inline {
+  background-color: #fee2e2;
+  color: #991b1b;
+}

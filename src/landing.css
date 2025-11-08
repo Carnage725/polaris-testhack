@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 75 97% 59%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --neon-green: 75 97% 59%;
+    --neon-green-bright: 82 100% 56%;
+    --dark-gray: 0 0% 20%;
+    --menu-bar: 0 0% 5%;
+    --tag-background: 0 0% 96%;
+    --symbol-black: 0 0% 7%;
+    --symbol-green: 82 100% 56%;
+    
+    /* Feature colors */
+    --feature-purple: 249 100% 66%;
+    --feature-lavender: 249 58% 75%;
+    --feature-lime: 82 100% 56%;
+    --feature-navy: 235 84% 30%;
+    
+    /* Spacing tokens */
+    --spacing-section: 3rem;
+    --spacing-block: 2rem;
+    --spacing-element: 1rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 75 97% 59%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Documentation-specific styles */
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold tracking-tight mt-8 mb-4 scroll-mt-20;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-semibold tracking-tight mt-10 mb-4 scroll-mt-20 border-b pb-2;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold tracking-tight mt-8 mb-3 scroll-mt-20;
+  }
+
+  .prose h4 {
+    @apply text-xl font-semibold tracking-tight mt-6 mb-2 scroll-mt-20;
+  }
+
+  .prose p {
+    @apply leading-7 mb-4;
+  }
+
+  .prose ul, .prose ol {
+    @apply my-4 ml-6 space-y-2;
+  }
+
+  .prose li {
+    @apply leading-7;
+  }
+
+  .prose code {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-gray-900 text-white p-4 rounded-lg overflow-x-auto my-6;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-white p-0;
+  }
+
+  .prose a {
+    @apply text-primary hover:underline font-medium;
+  }
+
+  .prose table {
+    @apply w-full my-6 border-collapse;
+  }
+
+  .prose th {
+    @apply border border-border bg-muted px-4 py-2 text-left font-semibold;
+  }
+
+  .prose td {
+    @apply border border-border px-4 py-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary pl-4 italic my-6 text-muted-foreground;
+  }
+
+  .prose strong {
+    @apply font-semibold text-foreground;
+  }
+}
