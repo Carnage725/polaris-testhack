@@ -13,6 +13,7 @@ import analysisRoutes from './routes/analysis.js';
 import chatRoutes from './routes/chat.js';
 import userRoutes from './routes/user.js';
 import analysisHistoryRoutes from './routes/analysisHistory.js';
+import completionRoutes from './routes/completion.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,8 +24,40 @@ app.use(helmet({
 }));
 
 // CORS configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:8080',
+  process.env.CORS_ORIGIN || 'http://localhost:8080',
+  // Allow Vercel domains
+  /^https:\/\/.*\.vercel\.app$/,
+  // Allow Replit domains (for development)
+  /^https:\/\/.*\.replit\.dev$/,
+  /^https:\/\/.*\.repl\.co$/,
+  /^https:\/\/.*\.replit\.app$/,
+  'https://replit.com',
+  'https://repl.it'
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    // Check if the origin is in our allowed list
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') {
+        return allowedOrigin === origin;
+      } else if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -65,6 +98,7 @@ app.use('/api/analysis', analysisRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/analysis-history', analysisHistoryRoutes);
+app.use('/api/completion', completionRoutes);
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {

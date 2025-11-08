@@ -3,7 +3,7 @@ import Database from '@replit/database';
 export class DatabaseService {
   constructor() {
     this.memoryStore = new Map();
-    this.isConnected = false; // Use memory store for now
+    this.isConnected = false; // Use memory store for now (Replit DB won't work on Vercel)
     this.db = null;
   }
 
@@ -49,11 +49,6 @@ export class DatabaseService {
       return userData;
     }
 
-    if (!this.isConnected) {
-      this.memoryStore.set(`users/${userId}`, userData);
-      return userData;
-    }
-
     try {
       await this.db.set(`users/${userId}`, userData);
       return userData;
@@ -63,7 +58,7 @@ export class DatabaseService {
       this.memoryStore.set(`users/${userId}`, userData);
       return userData;
     }
-  }
+   }
 
   async updateUser(userId, data) {
     const existingUser = await this.getUser(userId);

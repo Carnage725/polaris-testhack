@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Check, Code, Zap, FileText, ArrowRight } from "lucide-react";
 
@@ -42,18 +42,17 @@ export function OnboardingModal({ isOpen, onClose }: { isOpen: boolean; onClose:
     }
   };
 
-  const handleSkip = () => {
-    onClose();
-  };
-
   const step = ONBOARDING_STEPS[currentStep];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="sr-only">TIDY Onboarding</DialogTitle>
-          <div className="flex items-center justify-center">
+           <DialogTitle className="sr-only">TIDY Onboarding</DialogTitle>
+           <DialogDescription className="sr-only">
+             Learn about TIDY's key features and how to get started with AI-powered code analysis and assistance.
+           </DialogDescription>
+           <div className="flex items-center justify-center">
             <Badge variant="secondary" className="text-xs">
               Step {currentStep + 1} of {ONBOARDING_STEPS.length}
             </Badge>

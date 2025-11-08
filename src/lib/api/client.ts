@@ -120,4 +120,29 @@ export class AnalysisAPIClient {
       throw error;
     }
   }
+
+  async generateCompletion(code: string, cursorPosition: { line: number; column: number }, language: string, context?: string) {
+    try {
+      const response = await fetch(`${this.baseUrl}/completion`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code,
+          cursorPosition,
+          language,
+          context
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Completion failed: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('API Client - Completion error:', error);
+      throw error;
+    }
+  }
 }

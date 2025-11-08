@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -141,8 +141,11 @@ const SaveSnippetModal: React.FC<SaveSnippetModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{snippet ? '✏️ Edit Code Snippet' : '💾 Save Code Snippet'}</DialogTitle>
-        </DialogHeader>
+           <DialogTitle>{snippet ? '✏️ Edit Code Snippet' : '💾 Save Code Snippet'}</DialogTitle>
+           <DialogDescription>
+             {snippet ? 'Update your code snippet details and save changes.' : 'Save this code snippet to your personal library for future use.'}
+           </DialogDescription>
+         </DialogHeader>
 
         <div className="space-y-4">
           {/* Title */}

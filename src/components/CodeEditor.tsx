@@ -1,9 +1,9 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from 'monaco-editor';
-import { GeminiService } from '../lib/geminiApi';
 import { ContextAnalyzer } from '../lib/codeContext';
 import { useSettings } from '../lib/SettingsContext';
+import { AnalysisAPIClient } from '../lib/api/client';
 
 interface CodeEditorProps {
   content: string;
@@ -18,8 +18,6 @@ export function CodeEditor({ content, language, onChange, enableMinimap = false,
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const isExternalUpdateRef = useRef(false);
   const { settings } = useSettings();
-  const [geminiService, setGeminiService] = useState<GeminiService | null>(null);
-  const geminiServiceRef = useRef<GeminiService | null>(null);
   const [contextCache, setContextCache] = useState<Map<string, string>>(new Map());
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -113,27 +111,7 @@ export function CodeEditor({ content, language, onChange, enableMinimap = false,
     return [suggestion];
   }, []);
 
-  // Initialize AI service when settings change
-  useEffect(() => {
-    console.log('🔧 AI Settings:', settings.ai);
-    if (settings.ai.enabled && settings.ai.apiKey) {
-      console.log('✅ Creating Gemini service with API key:', settings.ai.apiKey.substring(0, 10) + '...');
-      const config = {
-        apiKey: settings.ai.apiKey,
-        model: settings.ai.model,
-        temperature: settings.ai.temperature,
-        maxTokens: settings.ai.maxTokens,
-      };
-      const service = new GeminiService(config);
-      setGeminiService(service);
-      geminiServiceRef.current = service;
-      console.log('✅ Gemini service initialized successfully');
-    } else {
-      console.log('❌ AI not enabled or no API key - inline completions disabled');
-      setGeminiService(null);
-      geminiServiceRef.current = null;
-    }
-  }, [settings.ai]);
+  // AI completions are now handled by backend API
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -188,8 +166,8 @@ export function CodeEditor({ content, language, onChange, enableMinimap = false,
         }
 
         // Early validation - check editor state
-        if (!editor || !geminiServiceRef.current) {
-          console.log('❌ No editor or Gemini service - skipping completion');
+        if (!editor) {
+          console.log('❌ No editor - skipping completion');
           resolve({ items: [] });
           return;
         }
@@ -238,8 +216,8 @@ export function CodeEditor({ content, language, onChange, enableMinimap = false,
         console.log('⏱️ Debounce timer fired - generating completion');
 
         // Double-check everything is still valid after debounce
-        if (!geminiServiceRef.current || !editor) {
-          console.log('❌ Service/editor lost after debounce');
+        if (!editor) {
+          console.log('❌ Editor lost after debounce');
           resolve({ items: [] });
           return;
         }
@@ -374,25 +352,20 @@ export function CodeEditor({ content, language, onChange, enableMinimap = false,
           }
           const surroundingContext = contextLines.join('\n');
 
-          // Smart prompt based on what user is typing
-          const prompt = `You are an expert code completion AI. Complete the ${language} code at the cursor (█).
-
-Rules:
-- Return ONLY the completion text that comes after the cursor
-- NO explanations, NO markdown, NO code fences
-- Keep completions SHORT and relevant (1-3 lines max)
-- Match the indentation and style
-
-Code:
-${surroundingContext.trim()}
-
-Complete from cursor:`;
+          // Generate completion using backend API
 
           // Create new AbortController for this request
           abortControllerRef.current = new AbortController();
 
-          console.log('🚀 Calling Gemini API...');
-          const completion = await geminiServiceRef.current!.generateCompletion(prompt);
+          console.log('🚀 Calling completion API...');
+          const apiClient = new AnalysisAPIClient();
+          const response = await apiClient.generateCompletion(
+            surroundingContext,
+            { line: position.lineNumber, column: position.column },
+            language,
+            codeContext?.fileContent
+          );
+          const completion = response.completion;
           console.log('✅ Received completion:', completion.substring(0, 50) + '...');
 
           // Check if cancelled during request or editor/model disposed
@@ -522,9 +495,6 @@ Complete from cursor:`;
               console.error('Error in provideInlineCompletions:', error);
               return { items: [] };
             }
-          },
-          freeInlineCompletions: (_completions) => {
-            // Optional cleanup for completions
           },
           disposeInlineCompletions: (_completions) => {
             // Required by Monaco - cleanup when completions are disposed

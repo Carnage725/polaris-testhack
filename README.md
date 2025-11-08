@@ -71,3 +71,26 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## 🚀 Deploy to Vercel
+
+For production deployment, this project is configured for **Vercel**:
+
+### Quick Deploy Steps:
+
+1. **Push to GitHub** (if not already)
+2. **Go to [vercel.com](https://vercel.com)** and sign up
+3. **Import your GitHub repo**
+4. **Add environment variables:**
+   - `GEMINI_API_KEY` - Your Google Gemini API key
+   - `NODE_ENV=production`
+5. **Deploy!** Vercel will automatically build and deploy
+
+### Features:
+- ✅ **Frontend + Backend** in one deployment
+- ✅ **Automatic HTTPS** and CDN
+- ✅ **Serverless API routes**
+- ✅ **Free tier** available
+- ✅ **Git integration** - auto-deploys on push
+
+Your app will be live at `your-project.vercel.app`! 🎉

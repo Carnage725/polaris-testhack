@@ -33,6 +33,31 @@ export const validateAnalysisRequest = [
     .isString(),
 ];
 
+export const validateCompletionRequest = [
+  body('code')
+    .isString()
+    .notEmpty()
+    .withMessage('Code is required')
+    .isLength({ max: 50000 })
+    .withMessage('Code too long (max 50KB)'),
+  body('cursorPosition')
+    .isObject()
+    .withMessage('Cursor position is required'),
+  body('cursorPosition.line')
+    .isInt({ min: 0 })
+    .withMessage('Cursor line must be a non-negative integer'),
+  body('cursorPosition.column')
+    .isInt({ min: 0 })
+    .withMessage('Cursor column must be a non-negative integer'),
+  body('language')
+    .isString()
+    .notEmpty()
+    .withMessage('Language is required'),
+  body('context')
+    .optional()
+    .isString(),
+];
+
 export const validateChatRequest = [
   body('messages')
     .isArray({ min: 1 })

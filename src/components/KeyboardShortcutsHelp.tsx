@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Kbd } from "@/components/ui/kbd";
 import { HelpCircle, Keyboard } from "lucide-react";
 
@@ -35,11 +35,14 @@ export function KeyboardShortcutsHelp() {
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Keyboard className="h-5 w-5" />
-            Keyboard Shortcuts
-          </DialogTitle>
-        </DialogHeader>
+           <DialogTitle className="flex items-center gap-2">
+             <Keyboard className="h-5 w-5" />
+             Keyboard Shortcuts
+           </DialogTitle>
+           <DialogDescription>
+             Learn the keyboard shortcuts available in the TIDY code editor to improve your productivity.
+           </DialogDescription>
+         </DialogHeader>
 
         <div className="space-y-6">
           {categories.map(category => (
